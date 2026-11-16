@@ -13,24 +13,25 @@ body{background:#070B14;color:white;font-family:Inter,system-ui}
 .btn-blue{background:#3B82F6;color:white;font-weight:700;border-radius:10px;padding:12px}
 input,select{background:#0B1220!important;border:1px solid #1F2937!important;color:white!important;border-radius:10px;padding:11px;width:100%;outline:none}
 .hidden{display:none!important}
+.wa-float{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;padding:14px 18px;border-radius:50px;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.5);z-index:999;font-size:14px}
 </style>
 </head>
-<body class="p-4 max-w-6xl mx-auto">
+<body class="p-4 max-w-6xl mx-auto pb-24">
+
+<a href="https://wa.me/2347046968089?text=Hello%20Cardizzy%2C%20I%20want%20to%20sell%20my%20gift%20card" target="_blank" class="wa-float">💬 Chat on WhatsApp</a>
 
 <div class="flex justify-between items-center py-4">
   <div><h1 class="text-2xl font-black">CARDIZZY<span class="gold">.</span></h1><p class="text-xs text-gray-400">Sell Gift Cards Instantly</p></div>
   <button onclick="showAdminLogin()" class="text-xs bg-white/10 px-3 py-2 rounded-lg">Admin Login 🔐</button>
 </div>
 
-<!-- CUSTOMER VIEW -->
 <div id="customerView">
   <h2 class="text-xl font-bold">Hello, oyebanjo 👋</h2>
   <p class="text-sm text-gray-400">Welcome back, ready to trade today?</p>
-
   <div class="grid grid-cols-3 gap-3 my-4">
-    <div class="card p-4"><p class="text-xs text-gray-400">AVAILABLE BALANCE</p><p class="text-xl font-black" id="custBal">₦0.00</p><p class="text-[11px] text-green-400">Ready to withdraw</p></div>
-    <div class="card p-4"><p class="text-xs text-gray-400">PENDING</p><p class="text-xl font-black">₦0.00</p><p class="text-[11px] text-yellow-400">Awaiting approval</p></div>
-    <div class="card p-4"><p class="text-xs text-gray-400">TOTAL TRADES</p><p class="text-xl font-black" id="custTrades">0</p><p class="text-[11px] text-gray-400">All-time</p></div>
+    <div class="card p-4"><p class="text-xs text-gray-400">AVAILABLE BALANCE</p><p class="text-xl font-black" id="custBal">₦145,000</p><p class="text-xs text-green-400">Ready to withdraw</p></div>
+    <div class="card p-4"><p class="text-xs text-gray-400">PENDING</p><p class="text-xl font-black">₦0.00</p></div>
+    <div class="card p-4"><p class="text-xs text-gray-400">TOTAL TRADES</p><p class="text-xl font-black" id="custTrades">1</p></div>
   </div>
 
   <div class="grid md:grid-cols-2 gap-4">
@@ -54,66 +55,70 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
   </div>
 
   <div class="card p-4 mt-4">
+    <h3 class="font-bold">💰 Withdraw to Your Bank (via Moniepoint)</h3>
+    <p class="text-xs text-gray-400 mb-3">Put your bank details. Admin go pay you with Moniepoint, e go enter within 10 mins.</p>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div><label class="text-xs">Amount to Withdraw (₦)</label><input id="wdAmt" type="number" placeholder="e.g 50000"></div>
+      <div><label class="text-xs">Bank Name</label><select id="wdBank"><option>Moniepoint MFB</option><option>OPay</option><option>Palmpay</option><option>GTBank</option><option>First Bank</option><option>Access Bank</option><option>UBA</option><option>Zenith Bank</option><option>Others</option></select></div>
+      <div><label class="text-xs">Account Number</label><input id="wdAcct" placeholder="10 digit number"></div>
+      <div><label class="text-xs">Account Name</label><input id="wdName" placeholder="Name on account"></div>
+    </div>
+    <button onclick="requestWithdraw()" class="btn-blue w-full mt-3">Request Withdrawal →</button>
+    <p id="wdMsg" class="text-xs text-green-400 mt-2"></p>
+    <div id="myWithdrawals" class="mt-3 text-sm"></div>
+  </div>
+
+  <div class="card p-4 mt-4">
     <h3 class="font-bold">My Trades</h3>
-    <div id="myTrades" class="text-sm text-gray-400 mt-2">No trades yet. Start your first trade above 👆</div>
+    <div id="myTrades" class="text-sm text-gray-400 mt-2">No trades yet.</div>
   </div>
 </div>
 
-<!-- ADMIN LOGIN POPUP -->
 <div id="adminLogin" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
   <div class="card p-6 w-full max-w-sm">
     <h3 class="text-xl font-black">Admin Only 🔐</h3>
-    <p class="text-xs text-gray-400 mb-4">Only Cardizzy owner can enter</p>
-    <input id="adminPass" type="password" placeholder="Enter Admin Password">
-    <p class="text-[11px] text-gray-500 mt-1">Your password: cardizzy123</p>
+    <input id="adminPass" type="password" placeholder="Enter Admin Password" class="mt-3">
+    <p class="text-[11px] text-gray-500 mt-1">Password: cardizzy123</p>
     <button onclick="loginAdmin()" class="btn-blue w-full mt-3">Login as Admin</button>
     <button onclick="closeAdminLogin()" class="w-full mt-2 text-sm text-gray-400">Cancel</button>
     <p id="loginErr" class="text-red-400 text-xs mt-2"></p>
   </div>
 </div>
 
-<!-- ADMIN VIEW -->
 <div id="adminView" class="hidden">
   <div class="flex justify-between items-center">
-    <div><h2 class="text-xl font-black">Admin Portal 👑</h2><p class="text-sm text-gray-400">You control everything here</p></div>
+    <div><h2 class="text-xl font-black">Admin Portal 👑</h2><p class="text-sm text-gray-400">You control everything</p></div>
     <button onclick="logoutAdmin()" class="bg-red-500 px-3 py-2 rounded-lg text-xs">Logout Admin</button>
   </div>
   <div class="grid grid-cols-3 gap-3 my-4">
     <div class="card p-4"><p class="text-xs">TOTAL USERS</p><p class="text-xl font-black">1,248</p></div>
     <div class="card p-4"><p class="text-xs">PENDING TRADES</p><p class="text-xl font-black text-yellow-400" id="pendingCount">2</p></div>
-    <div class="card p-4"><p class="text-xs">TOTAL PAYOUT</p><p class="text-xl font-black">₦4,250,000</p></div>
+    <div class="card p-4"><p class="text-xs">WITHDRAWAL REQUESTS</p><p class="text-xl font-black text-red-400" id="wdCount">0</p></div>
   </div>
   <div class="grid md:grid-cols-2 gap-4">
     <div class="card p-4">
-      <h3 class="font-bold mb-3">All Pending Trades - Approve / Reject</h3>
+      <h3 class="font-bold mb-3">Pending Trades</h3>
       <div id="adminTrades" class="space-y-3 text-sm"></div>
+      <h3 class="font-bold mt-6 mb-3 text-red-400">💰 Withdrawal Requests - Pay with Moniepoint App</h3>
+      <div id="adminWithdrawals" class="space-y-3 text-sm text-gray-400">No withdrawal requests yet.</div>
+      <p class="text-[11px] text-gray-500 mt-2">How to pay: Open your Moniepoint app -> Transfer to customer account number -> Come back click "Mark as Paid"</p>
     </div>
     <div class="card p-4">
-      <h3 class="font-bold mb-3">Change Rates - E go change for customers instantly</h3>
-      <label class="text-xs">Amazon Rate (₦ per $1)</label>
-      <input id="newAmazonRate" type="number" value="1450">
-      <label class="text-xs mt-3 block">Steam Rate (₦ per $1)</label>
-      <input id="newSteamRate" type="number" value="1300">
+      <h3 class="font-bold mb-3">Change Rates</h3>
+      <label class="text-xs">Amazon Rate</label><input id="newAmazonRate" type="number" value="1450">
+      <label class="text-xs mt-3 block">Steam Rate</label><input id="newSteamRate" type="number" value="1300">
       <button onclick="saveRates()" class="btn-gold w-full mt-3">Save New Rates</button>
       <p id="rateSaved" class="text-green-400 text-xs mt-2"></p>
-      <div class="mt-4"><h4 class="font-bold text-sm">Recent Users</h4><p class="text-xs text-gray-400 mt-1">• oyebanjo - Lagos - ₦0<br>• Chiamaka - Abuja - ₦45,000<br>• Tunde - Ibadan - ₦120,000</p></div>
     </div>
   </div>
 </div>
 
 <script>
 let rates={Amazon:1450,Apple:1380,Steam:1300,Google:1250};
-let myTradesCount=0;
-let adminTradesData=[
- {id:1,user:"Chiamaka",card:"Amazon $100",amt:"₦145,000"},
- {id:2,user:"Tunde",card:"Steam $50",amt:"₦65,000"},
-];
+let adminTradesData=[{id:1,user:"Chiamaka",card:"Amazon $100",amt:"₦145,000"},{id:2,user:"Tunde",card:"Steam $50",amt:"₦65,000"}];
+let withdrawals=[];
 function renderRates(){
-  document.getElementById('ratesList').innerHTML=
-  `<div class="flex justify-between"><span>Amazon $100</span><b class="text-green-400">₦${rates.Amazon.toLocaleString()}</b></div>
-  <div class="flex justify-between"><span>Apple $100</span><b class="text-green-400">₦${rates.Apple.toLocaleString()}</b></div>
-  <div class="flex justify-between"><span>Steam $50</span><b class="text-green-400">₦${rates.Steam.toLocaleString()}</b></div>
-  <div class="flex justify-between"><span>Google Play</span><b class="text-green-400">₦${rates.Google.toLocaleString()}</b></div>`;
+  document.getElementById('ratesList').innerHTML=`<div class="flex justify-between"><span>Amazon $100</span><b class="text-green-400">₦${rates.Amazon.toLocaleString()}</b></div><div class="flex justify-between"><span>Apple $100</span><b class="text-green-400">₦${rates.Apple.toLocaleString()}</b></div><div class="flex justify-between"><span>Steam $50</span><b class="text-green-400">₦${rates.Steam.toLocaleString()}</b></div><div class="flex justify-between"><span>Google Play</span><b class="text-green-400">₦${rates.Google.toLocaleString()}</b></div>`;
   updateRate();
 }
 function updateRate(){
@@ -123,39 +128,38 @@ function updateRate(){
   document.getElementById('rateText').innerText=`₦${rates[key].toLocaleString()} / $1`;
   document.getElementById('youGet').value=`₦${(amt*rates[key]).toLocaleString()}`;
 }
-function startTrade(){
-  myTradesCount++;
-  document.getElementById('custTrades').innerText=myTradesCount;
-  document.getElementById('tradeMsg').innerText="✅ Trade submitted! Admin go approve am soon.";
-  document.getElementById('myTrades').innerHTML=`<div class="flex justify-between p-2 bg-white/5 rounded-lg"><span>${document.getElementById('cardType').value} - $${document.getElementById('amt').value}</span><span class="text-yellow-400">Pending...</span></div>`;
+function startTrade(){document.getElementById('tradeMsg').innerText="✅ Trade submitted! Admin go approve am soon.";}
+function requestWithdraw(){
+  let amt=document.getElementById('wdAmt').value, bank=document.getElementById('wdBank').value, acct=document.getElementById('wdAcct').value, name=document.getElementById('wdName').value;
+  if(!amt||!acct||!name){alert("Please fill Amount, Account Number and Account Name");return;}
+  withdrawals.push({amt,bank,acct,name});
+  document.getElementById('wdMsg').innerText=`✅ Withdrawal request sent! ₦${parseInt(amt).toLocaleString()} to ${bank} - ${acct}. Admin go pay you soon via Moniepoint.`;
+  document.getElementById('myWithdrawals').innerHTML=`<div class="p-2 bg-yellow-400/10 rounded-lg">⏳ Pending: ₦${parseInt(amt).toLocaleString()} to ${bank} ${acct} (${name}) - Waiting for Admin to pay</div>`;
+  document.getElementById('wdCount').innerText=withdrawals.length;
+  renderAdminWithdrawals();
 }
+function renderAdminWithdrawals(){
+  if(withdrawals.length==0){document.getElementById('adminWithdrawals').innerHTML="No withdrawal requests yet.";return;}
+  document.getElementById('adminWithdrawals').innerHTML=withdrawals.map((w,i)=>`<div class="bg-white/5 p-3 rounded-lg"><b>₦${parseInt(w.amt).toLocaleString()}</b><br><span>${w.bank} - ${w.acct}<br>${w.name}</span><br><button onclick="markPaid(${i})" class="bg-green-500 px-2 py-1 rounded text-xs mt-2">Mark as Paid ✅</button></div>`).join('');
+}
+function markPaid(i){alert("✅ You don pay ₦"+withdrawals[i].amt+" . Customer go see say e don paid."); withdrawals.splice(i,1); document.getElementById('wdCount').innerText=withdrawals.length; renderAdminWithdrawals();}
 function showAdminLogin(){document.getElementById('adminLogin').classList.remove('hidden');}
 function closeAdminLogin(){document.getElementById('adminLogin').classList.add('hidden');}
 function loginAdmin(){
-  let p=document.getElementById('adminPass').value;
-  if(p==="cardizzy123"){
+  if(document.getElementById('adminPass').value==="cardizzy123"){
     document.getElementById('adminLogin').classList.add('hidden');
     document.getElementById('customerView').classList.add('hidden');
     document.getElementById('adminView').classList.remove('hidden');
-    renderAdminTrades();
-  } else { document.getElementById('loginErr').innerText="❌ Wrong password! Only owner fit enter."; }
+    renderAdminTrades(); renderAdminWithdrawals();
+  } else {document.getElementById('loginErr').innerText="❌ Wrong password!";}
 }
-function logoutAdmin(){
-  document.getElementById('adminView').classList.add('hidden');
-  document.getElementById('customerView').classList.remove('hidden');
-}
-function renderAdminTrades(){
-  document.getElementById('adminTrades').innerHTML=adminTradesData.map(t=>`<div class="flex justify-between items-center bg-white/5 p-3 rounded-lg"><div><b>${t.user}</b><br><span class="text-gray-400">${t.card} - ${t.amt}</span></div><div class="flex gap-1"><button onclick="approveTrade(${t.id})" class="bg-green-500 px-2 py-1 rounded text-xs">Approve</button><button onclick="rejectTrade(${t.id})" class="bg-red-500 px-2 py-1 rounded text-xs">Reject</button></div></div>`).join('') || "No pending trades";
-}
-function approveTrade(id){alert("✅ Trade "+id+" Approved!"); adminTradesData=adminTradesData.filter(t=>t.id!==id); document.getElementById('pendingCount').innerText=adminTradesData.length; renderAdminTrades();}
-function rejectTrade(id){alert("❌ Trade "+id+" Rejected."); adminTradesData=adminTradesData.filter(t=>t.id!==id); document.getElementById('pendingCount').innerText=adminTradesData.length; renderAdminTrades();}
-function saveRates(){
-  rates.Amazon=parseInt(document.getElementById('newAmazonRate').value);
-  rates.Steam=parseInt(document.getElementById('newSteamRate').value);
-  document.getElementById('rateSaved').innerText="✅ Rates saved! Customers go see new rate now.";
-  renderRates();
-}
+function logoutAdmin(){document.getElementById('adminView').classList.add('hidden');document.getElementById('customerView').classList.remove('hidden');}
+function renderAdminTrades(){document.getElementById('adminTrades').innerHTML=adminTradesData.map(t=>`<div class="flex justify-between items-center bg-white/5 p-3 rounded-lg"><div><b>${t.user}</b><br><span class="text-gray-400">${t.card} - ${t.amt}</span></div><div class="flex gap-1"><button onclick="approveTrade(${t.id})" class="bg-green-500 px-2 py-1 rounded text-xs">Approve</button><button onclick="rejectTrade(${t.id})" class="bg-red-500 px-2 py-1 rounded text-xs">Reject</button></div></div>`).join('');}
+function approveTrade(id){alert("✅ Approved!"); adminTradesData=adminTradesData.filter(t=>t.id!==id); document.getElementById('pendingCount').innerText=adminTradesData.length; renderAdminTrades();}
+function rejectTrade(id){alert("❌ Rejected."); adminTradesData=adminTradesData.filter(t=>t.id!==id); document.getElementById('pendingCount').innerText=adminTradesData.length; renderAdminTrades();}
+function saveRates(){rates.Amazon=parseInt(document.getElementById('newAmazonRate').value); rates.Steam=parseInt(document.getElementById('newSteamRate').value); document.getElementById('rateSaved').innerText="✅ Rates saved!"; renderRates();}
 renderRates();
 </script>
 </body>
 </html>
+
