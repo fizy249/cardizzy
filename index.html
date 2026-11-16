@@ -92,7 +92,7 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
   <div class="card p-6 w-full max-w-sm">
     <h3 class="text-xl font-black">Admin Only 🔐</h3>
     <input id="adminPass" type="password" placeholder="Enter Admin Password" class="mt-3">
-    <p class="text-[11px] text-gray-500 mt-1">Password: cardizzy123</p>
+    <p class="text-[11px] text-gray-500 mt-1">For Admins Only</p>
     <button onclick="loginAdmin()" class="btn-blue w-full mt-3">Login as Admin</button>
     <button onclick="closeAdminLogin()" class="w-full mt-2 text-sm text-gray-400">Cancel</button>
     <p id="loginErr" class="text-red-400 text-xs mt-2"></p>
@@ -148,7 +148,7 @@ function renderAdminWithdrawals(){if(withdrawals.length==0){document.getElementB
 function markPaid(i){alert("✅ Paid ₦"+withdrawals[i].amt); withdrawals.splice(i,1); document.getElementById('wdCount').innerText=withdrawals.length; renderAdminWithdrawals();}
 function showAdminLogin(){document.getElementById('adminLogin').classList.remove('hidden');}
 function closeAdminLogin(){document.getElementById('adminLogin').classList.add('hidden');}
-function loginAdmin(){if(document.getElementById('adminPass').value==="cardizzy123"){document.getElementById('adminLogin').classList.add('hidden');document.getElementById('customerView').classList.add('hidden');document.getElementById('adminView').classList.remove('hidden');renderAdminTrades();renderAdminWithdrawals();}else{document.getElementById('loginErr').innerText="❌ Wrong password!";}}
+function loginAdmin(){if(document.getElementById('adminPass').value==="Smallfizzy#*2"){document.getElementById('adminLogin').classList.add('hidden');document.getElementById('customerView').classList.add('hidden');document.getElementById('adminView').classList.remove('hidden');renderAdminTrades();renderAdminWithdrawals();}else{document.getElementById('loginErr').innerText="❌ Wrong password!";}}
 function logoutAdmin(){document.getElementById('adminView').classList.add('hidden');document.getElementById('customerView').classList.remove('hidden');}
 function renderAdminTrades(){document.getElementById('adminTrades').innerHTML=adminTradesData.map(t=>`<div class="flex justify-between items-center bg-white/5 p-3 rounded-lg"><div><b>${t.user}</b><br><span class="text-gray-400">${t.card} - ${t.amt}</span></div><div class="flex gap-1"><button onclick="approveTrade(${t.id})" class="bg-green-500 px-2 py-1 rounded text-xs">Approve</button><button onclick="rejectTrade(${t.id})" class="bg-red-500 px-2 py-1 rounded text-xs">Reject</button></div></div>`).join('');}
 function approveTrade(id){alert("✅ Approved!"); adminTradesData=adminTradesData.filter(t=>t.id!==id); document.getElementById('pendingCount').innerText=adminTradesData.length; renderAdminTrades();}
