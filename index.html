@@ -11,23 +11,36 @@ body{background:#070B14;color:white;font-family:Inter,system-ui}
 .card{background:#101828;border:1px solid #1F2937;border-radius:16px}
 .btn-gold{background:#F5C518;color:black;font-weight:800;border-radius:10px;padding:12px}
 .btn-blue{background:#3B82F6;color:white;font-weight:700;border-radius:10px;padding:12px}
-input,select{background:#0B1220!important;border:1px solid #1F2937!important;color:white!important;border-radius:10px;padding:11px;width:100%;outline:none}
+input,select,textarea{background:#0B1220!important;border:1px solid #1F2937!important;color:white!important;border-radius:10px;padding:11px;width:100%;outline:none}
 .hidden{display:none!important}
 .wa-float{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;padding:14px 18px;border-radius:50px;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.5);z-index:999;font-size:14px}
+.chat-float{position:fixed;bottom:20px;left:20px;background:#F5C518;color:black;padding:14px 18px;border-radius:50px;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.5);z-index:999;font-size:14px;cursor:pointer}
+.chat-box{position:fixed;bottom:80px;left:16px;width:320px;max-width:90vw;background:#101828;border:1px solid #333;border-radius:16px;z-index:1000;overflow:hidden}
 </style>
 </head>
-<body class="p-4 max-w-6xl mx-auto pb-24">
+<body class="p-4 max-w-6xl mx-auto pb-32">
 
-<a href="https://wa.me/2347046968089?text=Hello%20Cardizzy%2C%20I%20want%20to%20sell%20my%20gift%20card" target="_blank" class="wa-float">💬 Chat on WhatsApp</a>
+<a href="https://wa.me/2347046968089?text=Hello%20Cardizzy%2C%20I%20want%20to%20sell%20my%20gift%20card" target="_blank" class="wa-float">💬 WhatsApp</a>
+<button onclick="toggleChat()" class="chat-float">💬 Live Chat</button>
+
+<!-- LIVE CHAT BOX -->
+<div id="chatBox" class="chat-box hidden">
+<div class="bg-yellow-400 text-black p-3 font-bold flex justify-between"><span>💬 Cardizzy Live Support <span class="text-green-700 text-xs">● Online</span></span><button onclick="toggleChat()">✕</button></div>
+<div id="chatMsgs" class="p-3 h-56 overflow-y-auto text-sm space-y-2"><div class="bg-white/10 p-2 rounded-lg">👋 Hello! Welcome to Cardizzy. How can we help you sell your card today?</div></div>
+<div class="p-2 flex gap-2"><input id="chatInput" placeholder="Type message..."><button onclick="sendChat()" class="bg-yellow-400 text-black px-3 rounded-lg font-bold">Send</button></div>
+</div>
 
 <div class="flex justify-between items-center py-4">
-  <div><h1 class="text-2xl font-black">CARDIZZY<span class="gold">.</span></h1><p class="text-xs text-gray-400">Sell Gift Cards Worldwide 🌍</p></div>
-  <button onclick="showAdminLogin()" class="text-xs bg-white/10 px-3 py-2 rounded-lg">Admin Login 🔐</button>
+  <div><h1 class="text-2xl font-black">CARDIZZY<span class="gold">.</span></h1><p class="text-xs text-gray-400">Sell Gift Cards Worldwide 🌍 11 Countries</p></div>
+  <div class="flex gap-2">
+    <button onclick="showCustomerLogin()" id="custLoginBtn" class="text-xs bg-yellow-400 text-black px-3 py-2 rounded-lg font-bold">Login / Signup</button>
+    <button onclick="showAdminLogin()" class="text-xs bg-white/10 px-3 py-2 rounded-lg">Admin 🔐</button>
+  </div>
 </div>
 
 <div id="customerView">
-  <h2 class="text-xl font-bold">Hello, oyebanjo 👋</h2>
-  <p class="text-sm text-gray-400">Sell USA, UK, Canada, Australia, Germany & Europe cards!</p>
+  <h2 class="text-xl font-bold">Hello, <span id="userNameDisplay">oyebanjo</span> 👋</h2>
+  <p class="text-sm text-gray-400">Sell USA, UK, Canada, Australia, Germany, France, Italy, Spain, UAE, Netherlands & Europe!</p>
 
   <div class="flex gap-2 my-4 overflow-x-auto pb-1 text-xs">
     <button onclick="setCountry('US')" id="btn-US" class="bg-yellow-400 text-black px-3 py-2 rounded-full font-bold whitespace-nowrap">🇺🇸 USA</button>
@@ -35,6 +48,11 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
     <button onclick="setCountry('CA')" id="btn-CA" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇨🇦 Canada</button>
     <button onclick="setCountry('AU')" id="btn-AU" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇦🇺 Australia</button>
     <button onclick="setCountry('DE')" id="btn-DE" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇩🇪 Germany</button>
+    <button onclick="setCountry('FR')" id="btn-FR" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇫🇷 France</button>
+    <button onclick="setCountry('IT')" id="btn-IT" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇮🇹 Italy</button>
+    <button onclick="setCountry('ES')" id="btn-ES" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇪🇸 Spain</button>
+    <button onclick="setCountry('AE')" id="btn-AE" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇦🇪 UAE</button>
+    <button onclick="setCountry('NL')" id="btn-NL" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇳🇱 Netherlands</button>
     <button onclick="setCountry('EU')" id="btn-EU" class="bg-white/10 px-3 py-2 rounded-full whitespace-nowrap">🇪🇺 Europe</button>
   </div>
 
@@ -54,6 +72,11 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
         <option value="CA">🇨🇦 Canada - CAD (C$)</option>
         <option value="AU">🇦🇺 Australia - AUD (A$)</option>
         <option value="DE">🇩🇪 Germany - EUR (€)</option>
+        <option value="FR">🇫🇷 France - EUR (€)</option>
+        <option value="IT">🇮🇹 Italy - EUR (€)</option>
+        <option value="ES">🇪🇸 Spain - EUR (€)</option>
+        <option value="AE">🇦🇪 UAE - AED (د.إ)</option>
+        <option value="NL">🇳🇱 Netherlands - EUR (€)</option>
         <option value="EU">🇪🇺 Europe - EUR (€)</option>
       </select>
       <label class="text-xs mt-3 block">2. Select Card - <span id="countryHint">US Cards</span></label>
@@ -63,31 +86,58 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
         <div><label class="text-xs">You Get (₦)</label><input id="youGet" readonly value="₦145,000"></div>
       </div>
       <p class="text-xs text-gray-400 mt-2">Rate: <span id="rateText" class="text-green-400">₦1,450 / $1</span> | <span id="cardCountryNote">Amazon US</span></p>
+      <!-- UPLOAD -->
+      <label class="text-xs mt-4 block font-bold">📸 3. Upload Card Picture / Receipt (Front & Back)</label>
+      <input type="file" id="cardImage" accept="image/*" onchange="previewImage(event)" class="mt-2">
+      <img id="imgPreview" class="hidden mt-2 rounded-lg w-full max-h-48 object-cover">
+      <p id="uploadMsg" class="text-xs text-green-400"></p>
+      <label class="text-xs mt-3 block">Card Code / PIN (if e-code)</label><input id="cardCode" placeholder="e.g ABCD-1234-EFGH">
       <button onclick="startTrade()" class="btn-gold w-full mt-3">Start Trade →</button>
       <p id="tradeMsg" class="text-xs text-green-400 mt-2"></p>
     </div>
     <div class="card p-4">
-      <h3 class="font-bold mb-3">🌍 Live Rates - All Countries</h3>
-      <div id="ratesList" class="space-y-2 text-sm"></div>
-      <div class="mt-4 p-3 bg-yellow-400/10 rounded-xl text-xs">⚡ Germany cards are in EUR (€) like Europe, but Germany Amazon card dey different from France / Italy card. Always select correct country!</div>
+      <h3 class="font-bold mb-3">🌍 Live Rates - All 11 Countries</h3>
+      <div id="ratesList" class="space-y-2 text-sm max-h-96 overflow-y-auto"></div>
     </div>
   </div>
 
-  <div class="card p-4 mt-4">
-    <h3 class="font-bold">💰 Withdraw to Your Bank (via Moniepoint)</h3>
-    <p class="text-xs text-gray-400 mb-3">Put your bank details. Admin go pay you with Moniepoint.</p>
-    <div class="grid md:grid-cols-2 gap-3">
-      <div><label class="text-xs">Amount (₦)</label><input id="wdAmt" type="number" placeholder="e.g 50000"></div>
-      <div><label class="text-xs">Bank Name</label><select id="wdBank"><option>Moniepoint MFB</option><option>OPay</option><option>Palmpay</option><option>GTBank</option><option>First Bank</option><option>Access Bank</option><option>UBA</option><option>Zenith Bank</option><option>Others</option></select></div>
-      <div><label class="text-xs">Account Number</label><input id="wdAcct" placeholder="10 digit number"></div>
-      <div><label class="text-xs">Account Name</label><input id="wdName" placeholder="Name on account"></div>
+  <div class="grid md:grid-cols-2 gap-4 mt-4">
+    <div class="card p-4">
+      <h3 class="font-bold">💰 Withdraw to Your Bank (via Moniepoint)</h3>
+      <div class="grid md:grid-cols-2 gap-3 mt-3">
+        <div><label class="text-xs">Amount (₦)</label><input id="wdAmt" type="number" placeholder="e.g 50000"></div>
+        <div><label class="text-xs">Bank Name</label><select id="wdBank"><option>Moniepoint MFB</option><option>OPay</option><option>Palmpay</option><option>GTBank</option><option>First Bank</option><option>Access Bank</option><option>UBA</option><option>Zenith Bank</option><option>Others</option></select></div>
+        <div><label class="text-xs">Account Number</label><input id="wdAcct" placeholder="10 digit number"></div>
+        <div><label class="text-xs">Account Name</label><input id="wdName" placeholder="Name on account"></div>
+      </div>
+      <button onclick="requestWithdraw()" class="btn-blue w-full mt-3">Request Withdrawal →</button>
+      <p id="wdMsg" class="text-xs text-green-400 mt-2"></p>
+      <div id="myWithdrawals" class="mt-3 text-sm"></div>
     </div>
-    <button onclick="requestWithdraw()" class="btn-blue w-full mt-3">Request Withdrawal →</button>
-    <p id="wdMsg" class="text-xs text-green-400 mt-2"></p>
-    <div id="myWithdrawals" class="mt-3 text-sm"></div>
+    <div class="card p-4">
+      <h3 class="font-bold">🎁 Refer & Earn + Transaction History</h3>
+      <p class="text-xs text-gray-400 mt-2">Invite friend, you get ₦500 when dem trade first time!</p>
+      <div class="flex gap-2 mt-2"><input id="refLink" readonly value="https://cardizzy.com/ref/oyebanjo"><button onclick="copyRef()" class="bg-yellow-400 text-black px-3 rounded-lg font-bold text-xs">Copy</button></div>
+      <p id="refMsg" class="text-xs text-green-400 mt-1"></p>
+      <h4 class="font-bold mt-4 text-sm">📜 My Transactions</h4>
+      <div id="historyList" class="mt-2 text-sm space-y-2"><div class="bg-white/5 p-2 rounded-lg flex justify-between"><span>Amazon US $100</span><b class="text-green-400">₦145,000 ✅ Paid</b></div></div>
+    </div>
   </div>
 </div>
 
+<!-- CUSTOMER LOGIN -->
+<div id="custLogin" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+  <div class="card p-6 w-full max-w-sm">
+    <h3 class="text-xl font-black">Welcome to Cardizzy 👋</h3>
+    <input id="custName" placeholder="Your Full Name" class="mt-3">
+    <input id="custPhone" placeholder="WhatsApp Number e.g 07046968089" class="mt-2">
+    <input id="custPass" type="password" placeholder="Create Password" class="mt-2">
+    <button onclick="loginCustomer()" class="btn-gold w-full mt-3">Create Account / Login →</button>
+    <button onclick="closeCustLogin()" class="w-full mt-2 text-sm text-gray-400">Cancel</button>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN -->
 <div id="adminLogin" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
   <div class="card p-6 w-full max-w-sm">
     <h3 class="text-xl font-black">Admin Only 🔐</h3>
@@ -100,7 +150,7 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
 </div>
 
 <div id="adminView" class="hidden">
-  <div class="flex justify-between items-center"><div><h2 class="text-xl font-black">Admin Portal 👑</h2><p class="text-sm text-gray-400">All Countries - All Cards</p></div><button onclick="logoutAdmin()" class="bg-red-500 px-3 py-2 rounded-lg text-xs">Logout</button></div>
+  <div class="flex justify-between items-center"><div><h2 class="text-xl font-black">Admin Portal 👑</h2><p class="text-sm text-gray-400">11 Countries - All Cards - All Users</p></div><button onclick="logoutAdmin()" class="bg-red-500 px-3 py-2 rounded-lg text-xs">Logout</button></div>
   <div class="grid grid-cols-3 gap-3 my-4">
     <div class="card p-4"><p class="text-xs">TOTAL USERS</p><p class="text-xl font-black">1,248</p></div>
     <div class="card p-4"><p class="text-xs">PENDING TRADES</p><p class="text-xl font-black text-yellow-400" id="pendingCount">3</p></div>
@@ -112,6 +162,8 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
       <div id="adminTrades" class="space-y-3 text-sm"></div>
       <h3 class="font-bold mt-6 mb-3 text-red-400">💰 Withdrawals - Pay with Moniepoint</h3>
       <div id="adminWithdrawals" class="text-sm text-gray-400">No withdrawal requests yet.</div>
+      <h3 class="font-bold mt-6 mb-3">💬 Live Chat Messages</h3>
+      <div id="adminChat" class="text-sm text-gray-400">No chat messages yet. Chat go appear here.</div>
     </div>
     <div class="card p-4">
       <h3 class="font-bold mb-3">Change Rates - All Countries</h3>
@@ -119,7 +171,9 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
       <label class="text-xs mt-3 block">Amazon UK (₦ per £1)</label><input id="newUKRate" type="number" value="1850">
       <label class="text-xs mt-3 block">Amazon Canada (₦ per C$1)</label><input id="newCARate" type="number" value="1050">
       <label class="text-xs mt-3 block">Amazon Germany (₦ per €1)</label><input id="newDERate" type="number" value="1580">
+      <label class="text-xs mt-3 block">Amazon France (₦ per €1)</label><input id="newFRRate" type="number" value="1560">
       <label class="text-xs mt-3 block">Amazon Australia (₦ per A$1)</label><input id="newAURate" type="number" value="950">
+      <label class="text-xs mt-3 block">Amazon UAE (₦ per AED 1)</label><input id="newAERate" type="number" value="400">
       <button onclick="saveRates()" class="btn-gold w-full mt-3">Save New Rates</button>
       <p id="rateSaved" class="text-green-400 text-xs mt-2"></p>
     </div>
@@ -130,22 +184,34 @@ input,select{background:#0B1220!important;border:1px solid #1F2937!important;col
 let currentCountry='US';
 let data={
  US:{sym:'$',label:'🇺🇸 USA Cards',cards:[{n:'Amazon US',r:1450},{n:'Apple / iTunes US',r:1380},{n:'Steam US',r:1300},{n:'Google Play US',r:1250},{n:'Walmart US',r:1100},{n:'Vanilla Visa US',r:1200}]},
- UK:{sym:'£',label:'🇬🇧 UK Cards',cards:[{n:'Amazon UK',r:1850},{n:'Apple / iTunes UK',r:1780},{n:'Steam UK',r:1700},{n:'Google Play UK',r:1650},{n:'Tesco UK',r:1500},{n:'Sainsbury UK',r:1450}]},
- CA:{sym:'C$',label:'🇨🇦 Canada Cards',cards:[{n:'Amazon Canada',r:1050},{n:'Apple Canada',r:1000},{n:'Steam Canada',r:950},{n:'Google Play Canada',r:900},{n:'Walmart Canada',r:850},{n:'Tim Hortons Canada',r:800}]},
- AU:{sym:'A$',label:'🇦🇺 Australia Cards',cards:[{n:'Amazon Australia',r:950},{n:'Apple Australia',r:900},{n:'Steam Australia',r:880},{n:'Google Play Australia',r:850},{n:'Woolworths Australia',r:800}]},
- DE:{sym:'€',label:'🇩🇪 Germany Cards',cards:[{n:'Amazon Germany',r:1580},{n:'Apple / iTunes Germany',r:1500},{n:'Steam Germany',r:1450},{n:'Google Play Germany',r:1400},{n:'Zalando Germany',r:1200},{n:'MediaMarkt Germany',r:1150}]},
- EU:{sym:'€',label:'🇪🇺 Europe Cards',cards:[{n:'Amazon Europe (France/Italy/Spain)',r:1550},{n:'Apple Europe',r:1480},{n:'Steam Europe',r:1400},{n:'Google Play Europe',r:1350},{n:'Zalando Europe',r:1180}]}
+ UK:{sym:'£',label:'🇬🇧 UK Cards',cards:[{n:'Amazon UK',r:1850},{n:'Apple / iTunes UK',r:1780},{n:'Steam UK',r:1700},{n:'Google Play UK',r:1650},{n:'Tesco UK',r:1500}]},
+ CA:{sym:'C$',label:'🇨🇦 Canada Cards',cards:[{n:'Amazon Canada',r:1050},{n:'Apple Canada',r:1000},{n:'Steam Canada',r:950},{n:'Google Play Canada',r:900},{n:'Walmart Canada',r:850}]},
+ AU:{sym:'A$',label:'🇦🇺 Australia Cards',cards:[{n:'Amazon Australia',r:950},{n:'Apple Australia',r:900},{n:'Steam Australia',r:880},{n:'Google Play Australia',r:850}]},
+ DE:{sym:'€',label:'🇩🇪 Germany Cards',cards:[{n:'Amazon Germany',r:1580},{n:'Apple Germany',r:1500},{n:'Steam Germany',r:1450},{n:'Google Play Germany',r:1400},{n:'Zalando Germany',r:1200}]},
+ FR:{sym:'€',label:'🇫🇷 France Cards',cards:[{n:'Amazon France',r:1560},{n:'Apple France',r:1480},{n:'Steam France',r:1420},{n:'Google Play France',r:1380},{n:'Fnac France',r:1150}]},
+ IT:{sym:'€',label:'🇮🇹 Italy Cards',cards:[{n:'Amazon Italy',r:1550},{n:'Apple Italy',r:1470},{n:'Steam Italy',r:1410},{n:'Google Play Italy',r:1360}]},
+ ES:{sym:'€',label:'🇪🇸 Spain Cards',cards:[{n:'Amazon Spain',r:1540},{n:'Apple Spain',r:1460},{n:'Steam Spain',r:1400},{n:'Google Play Spain',r:1350}]},
+ AE:{sym:'AED',label:'🇦🇪 UAE Cards',cards:[{n:'Amazon UAE',r:400},{n:'Apple UAE',r:380},{n:'Steam UAE',r:360},{n:'Noon UAE',r:340},{n:'Carrefour UAE',r:320}]},
+ NL:{sym:'€',label:'🇳🇱 Netherlands Cards',cards:[{n:'Amazon Netherlands',r:1570},{n:'Apple Netherlands',r:1490},{n:'Steam Netherlands',r:1430},{n:'Bol.com Netherlands',r:1250}]},
+ EU:{sym:'€',label:'🇪🇺 Europe Cards',cards:[{n:'Amazon Europe',r:1550},{n:'Apple Europe',r:1480},{n:'Steam Europe',r:1400},{n:'Google Play Europe',r:1350}]}
 };
 let adminTradesData=[{id:1,user:"Chiamaka",card:"Amazon US $100",amt:"₦145,000"},{id:2,user:"Tunde",card:"Amazon UK £50",amt:"₦92,500"},{id:3,user:"Ada",card:"Amazon Germany €100",amt:"₦158,000"}];
 let withdrawals=[];
-function setCountry(c){currentCountry=c; document.getElementById('countrySelect').value=c; onCountryChange(); ['US','UK','CA','AU','DE','EU'].forEach(x=>{let b=document.getElementById('btn-'+x); b.className = x===c ? "bg-yellow-400 text-black px-3 py-2 rounded-full font-bold whitespace-nowrap" : "bg-white/10 px-3 py-2 rounded-full whitespace-nowrap";});}
+function setCountry(c){currentCountry=c; document.getElementById('countrySelect').value=c; onCountryChange(); ['US','UK','CA','AU','DE','FR','IT','ES','AE','NL','EU'].forEach(x=>{let b=document.getElementById('btn-'+x); if(b) b.className = x===c ? "bg-yellow-400 text-black px-3 py-2 rounded-full font-bold whitespace-nowrap" : "bg-white/10 px-3 py-2 rounded-full whitespace-nowrap";});}
 function onCountryChange(){currentCountry=document.getElementById('countrySelect').value; let d=data[currentCountry]; document.getElementById('tradeCountryLabel').innerText=d.label; document.getElementById('countryHint').innerText=d.label; document.getElementById('currSym').innerText=' '+d.sym; let sel=document.getElementById('cardType'); sel.innerHTML=d.cards.map(c=>`<option value="${c.r}">${c.n} - ₦${c.r.toLocaleString()} / ${d.sym}1</option>`).join(''); renderRates(); updateRate();}
 function updateRate(){let d=data[currentCountry]; let rate=parseInt(document.getElementById('cardType').value||d.cards[0].r); let amt=document.getElementById('amt').value||0; let cardName=document.getElementById('cardType').options[document.getElementById('cardType').selectedIndex]?.text||''; document.getElementById('rateText').innerText=`₦${rate.toLocaleString()} / ${d.sym}1`; document.getElementById('youGet').value=`₦${(amt*rate).toLocaleString()}`; document.getElementById('cardCountryNote').innerText=cardName;}
-function renderRates(){let h=''; for(let k in data){h+=`<div class="font-bold mt-2 text-yellow-400">${data[k].label}</div>`; data[k].cards.slice(0,3).forEach(c=>{h+=`<div class="flex justify-between"><span>${c.n}</span><b class="text-green-400">₦${c.r.toLocaleString()} / ${data[k].sym}1</b></div>`;});} document.getElementById('ratesList').innerHTML=h; }
-function startTrade(){document.getElementById('tradeMsg').innerText=`✅ Trade submitted! ${document.getElementById('cardType').options[document.getElementById('cardType').selectedIndex].text} - Admin go approve am.`;}
+function renderRates(){let h=''; for(let k in data){h+=`<div class="font-bold mt-2 text-yellow-400">${data[k].label}</div>`; data[k].cards.slice(0,2).forEach(c=>{h+=`<div class="flex justify-between"><span>${c.n}</span><b class="text-green-400">₦${c.r.toLocaleString()} / ${data[k].sym}1</b></div>`;});} document.getElementById('ratesList').innerHTML=h; }
+function previewImage(e){let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=function(){let img=document.getElementById('imgPreview'); img.src=r.result; img.classList.remove('hidden'); document.getElementById('uploadMsg').innerText="✅ Picture uploaded! Admin go see am.";}; r.readAsDataURL(f);}
+function startTrade(){let card=document.getElementById('cardType').options[document.getElementById('cardType').selectedIndex].text; let amt=document.getElementById('youGet').value; document.getElementById('tradeMsg').innerText=`✅ Trade submitted! ${card} - Admin go approve am.`; document.getElementById('historyList').innerHTML+=`<div class="bg-white/5 p-2 rounded-lg flex justify-between"><span>${card}</span><b class="text-yellow-400">${amt} ⏳ Pending</b></div>`;}
 function requestWithdraw(){let amt=document.getElementById('wdAmt').value, bank=document.getElementById('wdBank').value, acct=document.getElementById('wdAcct').value, name=document.getElementById('wdName').value; if(!amt||!acct||!name){alert("Fill Amount, Account Number and Name");return;} withdrawals.push({amt,bank,acct,name}); document.getElementById('wdMsg').innerText=`✅ Withdrawal sent! ₦${parseInt(amt).toLocaleString()} to ${bank} - ${acct}`; document.getElementById('myWithdrawals').innerHTML=`<div class="p-2 bg-yellow-400/10 rounded-lg">⏳ Pending: ₦${parseInt(amt).toLocaleString()} to ${bank} ${acct}</div>`; document.getElementById('wdCount').innerText=withdrawals.length; renderAdminWithdrawals();}
 function renderAdminWithdrawals(){if(withdrawals.length==0){document.getElementById('adminWithdrawals').innerHTML="No withdrawal requests yet.";return;} document.getElementById('adminWithdrawals').innerHTML=withdrawals.map((w,i)=>`<div class="bg-white/5 p-3 rounded-lg"><b>₦${parseInt(w.amt).toLocaleString()}</b><br>${w.bank} - ${w.acct}<br>${w.name}<br><button onclick="markPaid(${i})" class="bg-green-500 px-2 py-1 rounded text-xs mt-2">Mark as Paid ✅</button></div>`).join('');}
 function markPaid(i){alert("✅ Paid ₦"+withdrawals[i].amt); withdrawals.splice(i,1); document.getElementById('wdCount').innerText=withdrawals.length; renderAdminWithdrawals();}
+function showCustomerLogin(){document.getElementById('custLogin').classList.remove('hidden');}
+function closeCustLogin(){document.getElementById('custLogin').classList.add('hidden');}
+function loginCustomer(){let n=document.getElementById('custName').value||"oyebanjo"; document.getElementById('userNameDisplay').innerText=n; document.getElementById('refLink').value="https://cardizzy.com/ref/"+n.toLowerCase().replace(/ /g,''); document.getElementById('custLoginBtn').innerText="Hi, "+n+" ✅"; closeCustLogin(); alert("✅ Welcome "+n+"! Account created!");}
+function copyRef(){let i=document.getElementById('refLink'); i.select(); document.execCommand('copy'); document.getElementById('refMsg').innerText="✅ Link copied! Share am, earn ₦500 per friend!";}
+function toggleChat(){document.getElementById('chatBox').classList.toggle('hidden');}
+function sendChat(){let inp=document.getElementById('chatInput'); if(!inp.value) return; document.getElementById('chatMsgs').innerHTML+=`<div class="bg-yellow-400 text-black p-2 rounded-lg text-right">You: ${inp.value}</div>`; document.getElementById('adminChat').innerHTML=`<div class="bg-white/5 p-2 rounded">Customer: ${inp.value}</div>`; let msg=inp.value; inp.value=''; setTimeout(()=>{document.getElementById('chatMsgs').innerHTML+=`<div class="bg-white/10 p-2 rounded-lg">Admin: Thanks! Send your card picture and code, we go check rate for you now. 🙏</div>`;},1000);}
 function showAdminLogin(){document.getElementById('adminLogin').classList.remove('hidden');}
 function closeAdminLogin(){document.getElementById('adminLogin').classList.add('hidden');}
 function loginAdmin(){if(document.getElementById('adminPass').value==="Smallfizzy#*2"){document.getElementById('adminLogin').classList.add('hidden');document.getElementById('customerView').classList.add('hidden');document.getElementById('adminView').classList.remove('hidden');renderAdminTrades();renderAdminWithdrawals();}else{document.getElementById('loginErr').innerText="❌ Wrong password!";}}
@@ -153,7 +219,7 @@ function logoutAdmin(){document.getElementById('adminView').classList.add('hidde
 function renderAdminTrades(){document.getElementById('adminTrades').innerHTML=adminTradesData.map(t=>`<div class="flex justify-between items-center bg-white/5 p-3 rounded-lg"><div><b>${t.user}</b><br><span class="text-gray-400">${t.card} - ${t.amt}</span></div><div class="flex gap-1"><button onclick="approveTrade(${t.id})" class="bg-green-500 px-2 py-1 rounded text-xs">Approve</button><button onclick="rejectTrade(${t.id})" class="bg-red-500 px-2 py-1 rounded text-xs">Reject</button></div></div>`).join('');}
 function approveTrade(id){alert("✅ Approved!"); adminTradesData=adminTradesData.filter(t=>t.id!==id); document.getElementById('pendingCount').innerText=adminTradesData.length; renderAdminTrades();}
 function rejectTrade(id){alert("❌ Rejected."); adminTradesData=adminTradesData.filter(t=>t.id!==id); document.getElementById('pendingCount').innerText=adminTradesData.length; renderAdminTrades();}
-function saveRates(){data.US.cards[0].r=parseInt(document.getElementById('newAmazonRate').value); data.UK.cards[0].r=parseInt(document.getElementById('newUKRate').value); data.CA.cards[0].r=parseInt(document.getElementById('newCARate').value); data.DE.cards[0].r=parseInt(document.getElementById('newDERate').value); data.AU.cards[0].r=parseInt(document.getElementById('newAURate').value); document.getElementById('rateSaved').innerText="✅ Rates saved for US, UK, Canada, Germany, Australia!"; onCountryChange();}
+function saveRates(){data.US.cards[0].r=parseInt(document.getElementById('newAmazonRate').value); data.UK.cards[0].r=parseInt(document.getElementById('newUKRate').value); data.CA.cards[0].r=parseInt(document.getElementById('newCARate').value); data.DE.cards[0].r=parseInt(document.getElementById('newDERate').value); data.FR.cards[0].r=parseInt(document.getElementById('newFRRate').value); data.AU.cards[0].r=parseInt(document.getElementById('newAURate').value); data.AE.cards[0].r=parseInt(document.getElementById('newAERate').value); document.getElementById('rateSaved').innerText="✅ Rates saved for all countries!"; onCountryChange();}
 onCountryChange();
 </script>
 </body>
