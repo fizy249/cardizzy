@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARDIZZY - Trade Gift Cards</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#070B14;color:#fff;display:flex;min-height:100vh}
+.sidebar{width:250px;background:#0A0F1E;padding:25px;border-right:1px solid #1A2340;position:fixed;height:100vh}
+.logo{font-size:24px;font-weight:900;letter-spacing:1px}
+.logo span{color:#3B82F6}
+.sidebar p{color:#8A94AD;font-size:13px;margin:5px 0 25px}
+.menu a{display:block;padding:12px 14px;border-radius:10px;color:#CBD5E1;text-decoration:none;margin-bottom:6px;font-size:14px;cursor:pointer}
+.menu a.active,.menu a:hover{background:#1E293B;color:#fff;border-left:3px solid #3B82F6}
+.admin-btn{margin-top:20px;background:#3B82F6;color:#fff;border:0;padding:12px;width:100%;border-radius:10px;font-weight:700;cursor:pointer}
+.main{margin-left:250px;flex:1;padding:30px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.top h1{font-size:26px}
+.top h1 small{display:block;font-size:14px;color:#8A94AD;font-weight:400;margin-top:4px}
+.search{background:#0F172A;border:1px solid #1E293B;padding:10px 14px;border-radius:20px;color:#fff;width:260px}
+.cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+.card{background:linear-gradient(135deg,#111827,#0F172A);border:1px solid #1E293B;padding:20px;border-radius:16px}
+.card h3{font-size:13px;color:#94A3B8}
+.card h2{font-size:28px;margin:10px 0 5px}
+.card p{font-size:13px;color:#94A3B8}
+.green{color:#22C55E}.blue{color:#3B82F6}.orange{color:#F59E0B}
+.box{background:#0F172A;border:1px solid #1E293B;padding:20px;border-radius:16px;margin-bottom:16px}
+.row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #1E293B}
+.row:last-child{border:0}
+.btn{background:#3B82F6;color:#fff;border:0;padding:9px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+.btn-green{background:#22C55E}.btn-red{background:#EF4444}.btn-outline{background:transparent;border:1px solid #334155}
+input,select{width:100%;padding:12px;background:#020617;border:1px solid #334155;border-radius:10px;color:#fff;margin:8px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hidden{display:none}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:16px}.cards,.grid2{grid-template-columns:1fr}.search{width:140px}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+<div class="logo">CARDIZZY<span>.</span></div>
+<p>Gift Card Trading</p>
+<div class="menu">
+<a class="active" onclick="show('dash',this)">📊 Overview</a>
+<a onclick="show('rates',this)">💱 Live Rates</a>
+<a onclick="show('trades',this)">🔄 My Trades</a>
+<a onclick="show('wallet',this)">👛 Wallet</a>
+<a onclick="show('sell',this)">💳 Sell Gift Card</a>
+</div>
+<button class="admin-btn" onclick="show('admin',this)">🛡️ ADMIN PORTAL</button>
+<p style="margin-top:20px;font-size:12px">oyebanjo • Verified ✅</p>
+</div>
+<div class="main">
+<div id="dash">
+<div class="top"><div><h1>Hello, oyebanjo <small>Welcome back, let's trade today</small></h1></div><input class="search" placeholder="🔍 Search..."></div>
+<div class="cards">
+<div class="card"><h3>AVAILABLE BALANCE</h3><h2>₦0.00</h2><p>Ready to withdraw</p></div>
+<div class="card"><h3>PENDING BALANCE</h3><h2 class="orange">₦0.00</h2><p>Waiting for approval</p></div>
+<div class="card"><h3>TOTAL TRADES</h3><h2>0</h2><p class="green">+0 this week</p></div>
+</div>
+<div class="grid2">
+<div class="box"><h3>Quick Trade</h3><p style="color:#94A3B8;font-size:13px;margin:8px 0">Sell your gift card in 2 mins</p><select><option>Amazon Gift Card - ₦1,450 / $1</option><option>Apple iTunes - ₦1,380 / $1</option><option>Steam - ₦1,300 / $1</option><option>Google Play - ₦1,250 / $1</option></select><button class="btn" style="width:100%" onclick="alert('Upload your card to start trade!')">Start Trade →</button></div>
+<div class="box"><h3>Live Rates Today 🔥</h3><div class="row"><span>Amazon $100</span><b class="green">₦145,000</b></div><div class="row"><span>Apple $100</span><b class="green">₦138,000</b></div><div class="row"><span>Steam $50</span><b class="green">₦65,000</b></div></div>
+</div>
+</div>
+
+<div id="rates" class="hidden">
+<h1>Live Rates 💱</h1><p style="color:#94A3B8;margin:10px 0">Rates update every 5 mins. Best rate today: Amazon</p>
+<div class="box"><div class="row"><span>Amazon Gift Card</span><b>₦1,450 / $1</b></div><div class="row"><span>Apple / iTunes</span><b>₦1,380 / $1</b></div><div class="row"><span>Steam Wallet</span><b>₦1,300 / $1</b></div><div class="row"><span>Google Play</span><b>₦1,250 / $1</b></div><div class="row"><span>Razer Gold</span><b>₦1,200 / $1</b></div></div>
+</div>
+
+<div id="trades" class="hidden"><h1>My Trades</h1><div class="box"><p>No trades yet. Sell your first card and get paid in minutes.</p><br><button class="btn" onclick="show('sell',this)">Sell Card Now</button></div></div>
+<div id="wallet" class="hidden"><h1>Wallet 👛</h1><div class="box"><h3>Available: ₦0.00</h3><br><input placeholder="Account Number"><input placeholder="Bank Name - e.g GTB, Opay"><input placeholder="Amount - e.g 50000"><button class="btn btn-green" style="width:100%">Withdraw Now</button></div></div>
+<div id="sell" class="hidden"><h1>Sell Gift Card 💳</h1><div class="box"><select><option>Amazon</option><option>Apple</option><option>Steam</option></select><input placeholder="Amount in $ e.g 100"><input placeholder="Card Code"><button class="btn" style="width:100%" onclick="alert('Trade submitted! Admin will approve in 5 mins.')">Submit Trade</button></div></div>
+
+<div id="admin" class="hidden">
+<h1>🛡️ Admin Portal - Cardizzy</h1><p style="color:#94A3B8;margin:10px 0">Only you fit see this page</p>
+<div class="cards"><div class="card"><h3>TOTAL USERS</h3><h2>1</h2></div><div class="card"><h3>PENDING TRADES</h3><h2 class="orange">0</h2></div><div class="card"><h3>TOTAL PAYOUT</h3><h2>₦0</h2></div></div>
+<div class="box"><h3>Pending Trades - Approve / Reject</h3><div class="row"><span>oyebanjo - Amazon $100 - ₦145,000</span><span><button class="btn btn-green" onclick="alert('Approved! User paid.')">Approve</button> <button class="btn btn-red">Reject</button></span></div></div>
+<div class="box"><h3>Manage Rates (You fit change price)</h3><label>Amazon Rate</label><input value="1450"><label>Apple Rate</label><input value="1380"><button class="btn" onclick="alert('Rates Updated!')">Update Rates</button></div>
+<div class="box"><h3>Users</h3><div class="row"><span>oyebanjo - oyebanjo@gmail.com</span><button class="btn btn-red">Block</button></div></div>
+</div>
+</div>
+<script>
+function show(id,el){
+['dash','rates','trades','wallet','sell','admin'].forEach(x=>document.getElementById(x).classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('active'));
+if(el && el.classList) el.classList.add('active');
+}
+</script>
+</body>
+</html>
